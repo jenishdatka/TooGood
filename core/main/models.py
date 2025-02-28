@@ -46,6 +46,11 @@ class Product(models.Model):
         Category,
         on_delete=models.PROTECT
     )
+    main_image = models.ImageField(
+        upload_to='media/main_cover',
+        verbose_name='Главное фото',
+        help_text='Фото для обложки объявления'
+    )
     images = models.ManyToManyField(
         Image,
         verbose_name='Изображения'
