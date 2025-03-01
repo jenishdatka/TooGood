@@ -11,7 +11,7 @@ def index_view(request):
 def product_detail_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    similar_products = Product.objects.filter(category=product.category).execute(id=product.id)
+    similar_products = Product.objects.filter(category=product.category).exclude(id=product.id)
 
     return render(request=request,
                   template_name='main/product_detail.html',
