@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render,redirect
 from django.contrib import messages
+from .forms import UserRegisterForm
 
-from core.user.forms import UserRegisterForm
 
+def user_profile_view(request):
+    return render(request, 'account/user_profile.html')
 
 def user_register_view(request):
     if request.method =='POST':
