@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Rating
 
 class ProductCreateForm(forms.ModelForm):
     class Meta:
@@ -24,3 +24,4 @@ class ProductUpdateForm(forms.ModelForm):
             'description',
             'price',
         )
+

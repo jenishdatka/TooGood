@@ -100,8 +100,8 @@ class Rating(models.Model):
         auto_now_add=True
     )
 
-    #def __str__(self):
-        #return str
+    def __str__(self):
+        return f'{self.user} --> {self.product}'
 
     class Meta:
         verbose_name = 'Отзыв'
@@ -115,7 +115,8 @@ class RatingAnswer(models.Model):
     rating = models.ForeignKey(
         Rating,
         on_delete=models.CASCADE,
-        verbose_name='Отзыв'
+        verbose_name='Отзыв',
+        related_name= 'rating_answers'
     )
     comment = models.TextField(
         max_length=500,
@@ -137,6 +138,9 @@ class RatingAnswer(models.Model):
     class Meta:
         verbose_name = 'Ответ на отзыв'
         verbose_name_plural = 'Ответы на отзывы'
+
+    def __str__(self):
+        return f'{self.user} --> {self.rating}'
 
 class Order(models.Model):
     user = models.ForeignKey(
