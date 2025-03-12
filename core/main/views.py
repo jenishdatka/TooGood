@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Avg
 
-from .models import Product, Rating, RatingAnswer
+from .models import Product, Rating, RatingAnswer, PaymentMethod
 from .forms import ProductCreateForm, ProductUpdateForm
 
 def index_view(request):
@@ -84,3 +84,18 @@ def rating_answer_create_view(request, rating_id):
         rating_answer.save()
         messages.success(request, 'Успешно отправлено.')
         return redirect('product_detail', rating.product.id)
+
+def user_profile_view(request):
+    return render(
+        request=request,
+        template_name='main/user_profile.html'
+    )
+def product_payment_create_view(request, product_id):
+    product = get_object_or_404(Product, product_id)
+    seller_payment_methods = PaymentMethod.objects.filter(user=product.user)
+
+    return render(
+        request=request,
+        template_name='main/product_payment.html',
+        context ={ "seller_payment_methods": seller_payment_methods }
+    )

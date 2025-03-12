@@ -1,5 +1,6 @@
 from django import forms
 from .models import Product, Rating
+from .models import PaymentMethod
 
 class ProductCreateForm(forms.ModelForm):
     class Meta:
@@ -24,4 +25,7 @@ class ProductUpdateForm(forms.ModelForm):
             'description',
             'price',
         )
+
+
+
 

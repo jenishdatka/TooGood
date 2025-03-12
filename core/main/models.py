@@ -21,8 +21,6 @@ class Image(models.Model):
     file = models.ImageField(
         upload_to='media/product_file',
         verbose_name='Файл'
-
-
     )
 
     def __str__(self):
@@ -69,7 +67,7 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return f'{self.id} | {self.title}'
+        return f'{self.title}'
 
     class Meta:
         verbose_name = 'Продукт'
@@ -145,39 +143,36 @@ class RatingAnswer(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(
         MyUser,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='orders',
+        verbose_name='Пользователь'
     )
     product = models.ForeignKey(
         Product,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
+        related_name='orders',
         verbose_name='Продукт'
     )
 
-    created_date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name = 'Заказ'
+    is_paid = models.BooleanField(
+        verbose_name='Принято',
+        default=False
     )
 
     quantity = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)], #количество товара на сайте
-        verbose_name='Количество'
+        verbose_name='Количество',
+        default=1
     )
 
-    is_paid = models.BooleanField(
-        default=False,
-        verbose_name="Оплачен"
-    )
-
-    checkk = models.BooleanField(
+    is_sent = models.BooleanField(
         default=False,
         verbose_name="Отправлен"
     )
 
-    status = models.BooleanField(
-        default=False,
-        verbose_name="Подтвержден"
+    payment_check = models.ImageField(
+        upload_to='media/check',
+        verbose_name='Чек'
     )
-
 
     def __str__(self):
         return f"Заказ {self.product.name} x {self.quantity}"
@@ -188,4 +183,33 @@ class Order(models.Model):
 
 
 
-    
+class PaymentMethod(models.Model):
+    user = models.ForeignKey(
+        MyUser,
+        on_delete=models.CASCADE,
+        related_name='payment_methods',
+        verbose_name='Пользователь'
+
+    )
+    title = models.CharField(
+        max_length=123,
+        verbose_name='Название'
+    )
+
+    qr_image = models.ImageField(
+        upload_to='media/qr',
+        verbose_name='QR'
+    )
+
+    created_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+    def __str__(self):
+        return f' {self.user} --> {self.title}'
+
+    class Meta:
+        verbose_name = 'Способ оплаты'
+        verbose_name_plural = 'Способы оплаты'
+
+
