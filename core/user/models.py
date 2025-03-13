@@ -1,5 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.db.models import ForeignKey
 
 
 class MyUserManager(BaseUserManager):
@@ -76,6 +77,10 @@ class MyUser(AbstractBaseUser):
         default=False
     )
 
+    is_otp = models.BooleanField(
+        default=False
+    )
+
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
@@ -103,3 +108,13 @@ class MyUser(AbstractBaseUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+
+class OTP(models.Model):
+    user = ForeignKey(MyUser, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6)
+    if_used = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user

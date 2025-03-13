@@ -5,5 +5,7 @@ urlpatterns = [
     path('register/', views.user_register_view, name='register'),
     path('login/', views.user_login_view, name='login'),
     path('logout/', views.user_logout_view, name='logout'),
-    path('profile/', views.user_profile_view, name='profile')
+    path('profile/', views.user_profile_view, name='profile'),
+
+    path('otp_verify/<int:user_id>', views.otp_verification_view, name = 'otp_verify'),
 ]
