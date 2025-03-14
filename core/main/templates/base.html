@@ -66,8 +66,8 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Search End ***** -->
                     <div class="search-input">
-                      <form id="search" action="#">
-                        <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
+                      <form id="search" action="{% url 'catalog' %}" method="get">
+                        <input type="text" placeholder="Type Something" id='searchText' name="product_search" onkeypress="handle" />
                         <i class="fa fa-search"></i>
                       </form>
                     </div>
@@ -75,7 +75,7 @@ https://templatemo.com/tm-579-cyborg-gaming
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="{% url 'index' %}" class="active">Главная</a></li>
-                        <li><a href="browse.html">Browse</a></li>
+                        <li><a href="{% url 'catalog' %}">Все продукты</a></li>
                         <li><a href="browse.html">Продукт</a></li>
                         <li><a href="streams.html">Streams</a></li>
                         {%if request.user.is_authenticated %}

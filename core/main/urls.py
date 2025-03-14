@@ -11,7 +11,7 @@ urlpatterns = [
     #Rating
     path('rating/create/<int:product_id>', views.rating_create_view, name='rating_create'),
     path('rating_answer/create/<int:rating_id>', views.rating_answer_create_view, name='rating_answer_create'),
-    #User
-    path('profile/', views.user_profile_view, name = 'user_profile'),
+
+    path('catalog', views.product_list_view, name='catalog')
 
 ]

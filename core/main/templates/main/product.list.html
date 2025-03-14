@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+<html lang="en">
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-content">
+
+          <!-- ***** Banner Start ***** -->
+          <div class="main-banner">
+            <div class="row">
+              <div class="col-lg-7">
+                <div class="header-text">
+                  <h6>TOOGOOD_BAGS</h6>
+                  <h4><em>Онлайн-магазин</em> женских сумок </h4>
+                  <div class="main-button">
+                    <a href="browse.html">Каталог</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ***** Banner End ***** -->
+           <form method="get">
+            {{ filter.form.as_p }}
+             <input type="submit" />
+           </form>
+          <!-- ***** Most Popular Start ***** -->
+          <div class="most-popular">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="heading-section">
+
+                  <h4><em>Товары с высоким рейтингом </em> сейчас </h4>
+                </div>
+                <div class="row">\
+                  {% for product in products %}
+                    <div class="col-lg-3 col-sm-6">
+                      <a href = "{% url 'product_detail' product.id %}">
+                        <div class="item">
+                          <img src="{{ product.main_image.url }}" alt="">
+                          <h4>{{ product.title }}<br><span>{{ product.category }}</span></h4>
+                          <ul>
+                            <li><i class="fa fa-star"></i> 4.8</li>
+                            <li><i class="fa fa-download"></i> 2.3M</li>
+                          </ul>
+                        </div>
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ***** Most Popular End ***** -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
+

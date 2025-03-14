@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Avg
+from django.core.paginator import Paginator
 
-from .models import Product, Rating, RatingAnswer, PaymentMethod
+
+from .filters import ProductListFilter
+from .models import Product, Rating, RatingAnswer, PaymentMethod, Category
 from .forms import ProductCreateForm, ProductUpdateForm
 
 def index_view(request):
@@ -99,3 +102,19 @@ def product_payment_create_view(request, product_id):
         template_name='main/product_payment.html',
         context ={ "seller_payment_methods": seller_payment_methods }
     )
+
+def product_list_view(request):
+    queryset = Product.objects.filter(is_active=True)
+
+    if 'product_search' in request.GET:
+        product_name = request.GET.get("product_search")
+        queryset = queryset.filter(title__icontains=product_name)
+
+        products = ProductListFilter(request.GET, queryset=queryset)
+        paginator = Paginator(products.qs, 2)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+
+    return render(request, 'main/product_list.html', context={'products': products})
